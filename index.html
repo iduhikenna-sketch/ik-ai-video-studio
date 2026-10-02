@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>IK AI VIDEO STUDIO | AI Video Generator</title>
+
+    <meta name="description" content="Create professional AI videos from your prompts with IK AI VIDEO STUDIO.">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #070b16;
+            color: white;
+            min-height: 100vh;
+        }
+
+        header {
+            padding: 20px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #20283b;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #5b8cff;
+        }
+
+        .badge {
+            background: #111a30;
+            border: 1px solid #293657;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            color: #9db7ff;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 65px 20px 35px;
+        }
+
+        .hero h1 {
+            font-size: clamp(38px, 7vw, 72px);
+            margin-bottom: 18px;
+            line-height: 1.05;
+        }
+
+        .hero h1 span {
+            color: #5b8cff;
+        }
+
+        .hero p {
+            max-width: 700px;
+            margin: auto;
+            color: #aeb8cc;
+            font-size: 18px;
+            line-height: 1.7;
+        }
+
+        .studio {
+            width: 92%;
+            max-width: 1000px;
+            margin: 30px auto 70px;
+            background: #0d1322;
+            border: 1px solid #202b43;
+            border-radius: 22px;
+            padding: 30px;
+            box-shadow: 0 20px 70px rgba(0,0,0,.35);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 190px;
+            resize: vertical;
+            background: #080d18;
+            color: white;
+            border: 1px solid #2a3753;
+            border-radius: 14px;
+            padding: 17px;
+            font-size: 16px;
+            outline: none;
+            line-height: 1.6;
+        }
+
+        textarea:focus {
+            border-color: #5b8cff;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 22px;
+        }
+
+        .control {
+            background: #080d18;
+            border: 1px solid #26334d;
+            border-radius: 13px;
+            padding: 15px;
+        }
+
+        select {
+            width: 100%;
+            margin-top: 8px;
+            background: #11192a;
+            color: white;
+            border: 1px solid #2b3957;
+            border-radius: 9px;
+            padding: 11px;
+        }
+
+        .generate {
+            width: 100%;
+            margin-top: 25px;
+            padding: 17px;
+            border: none;
+            border-radius: 13px;
+            background: #5b8cff;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .generate:hover {
+            background: #4778ed;
+        }
+
+        .status {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 12px;
+            background: #111a30;
+            color: #aebfff;
+            text-align: center;
+        }
+
+        .features {
+            width: 92%;
+            max-width: 1000px;
+            margin: 0 auto 70px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .feature {
+            padding: 25px;
+            background: #0d1322;
+            border: 1px solid #202b43;
+            border-radius: 18px;
+        }
+
+        .feature h3 {
+            margin-bottom: 10px;
+        }
+
+        .feature p {
+            color: #9da8bd;
+            line-height: 1.6;
+        }
+
+        footer {
+            border-top: 1px solid #20283b;
+            text-align: center;
+            padding: 25px;
+            color: #7e899e;
+        }
+
+        @media (max-width: 700px) {
+            .controls,
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .studio {
+                padding: 20px;
+            }
+
+            .hero {
+                padding-top: 45px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">IK <span>AI VIDEO STUDIO</span></div>
+    <div class="badge">AI Video Creator</div>
+</header>
+
+<section class="hero">
+    <h1>Turn Your <span>Prompt</span><br>Into a Video</h1>
+
+    <p>
+        Create cinematic, realistic and professional AI videos from your ideas.
+        Write your prompt, choose your settings and generate your video.
+    </p>
+</section>
+
+<section class="studio">
+
+    <label for="prompt">Describe the video you want</label>
+
+    <textarea id="prompt"
+        placeholder="Example: Create a realistic 10-minute business advertisement showing a confident young entrepreneur introducing a modern digital company. Use cinematic camera movements, realistic lighting, professional clothing and a natural Nigerian English voice..."></textarea>
+
+    <div class="controls">
+
+        <div class="control">
+            <label>Video Length</label>
+            <select id="duration">
+                <option>1 minute</option>
+                <option>5 minutes</option>
+                <option>10 minutes</option>
+                <option>20 minutes</option>
+                <option>30 minutes</option>
+            </select>
+        </div>
+
+        <div class="control">
+            <label>Video Style</label>
+            <select id="style">
+                <option>Ultra Realistic</option>
+                <option>Cinematic</option>
+                <option>Business</option>
+                <option>Fashion</option>
+                <option>Advertisement</option>
+                <option>Documentary</option>
+            </select>
+        </div>
+
+        <div class="control">
+            <label>Video Quality</label>
+            <select id="quality">
+                <option>High Quality</option>
+                <option>Full HD</option>
+                <option>4K</option>
+            </select>
+        </div>
+
+    </div>
+
+    <button class="generate" onclick="generateVideo()">
+        🎬 Generate AI Video
+    </button>
+
+    <div class="status" id="status">
+        Preparing your AI video project...
+    </div>
+
+</section>
+
+<section class="features">
+
+    <div class="feature">
+        <h3>🎥 Realistic Videos</h3>
+        <p>
+            Designed for realistic characters, environments, lighting,
+            camera movements and professional visual storytelling.
+        </p>
+    </div>
+
+    <div class="feature">
+        <h3>🧠 Prompt Based</h3>
+        <p>
+            Describe the video you want in your own words and the system
+            will prepare the project around your instructions.
+        </p>
+    </div>
+
+    <div class="feature">
+        <h3>⏱️ Long Videos</h3>
+        <p>
+            Built with long-form video production in mind, including
+            projects that can eventually reach 20–30 minutes.
+        </p>
+    </div>
+
+</section>
+
+<footer>
+    © 2026 IK BASIC DIGITAL — IK AI VIDEO STUDIO
+</footer>
+
+<script>
+
+function generateVideo() {
+
+    const prompt = document.getElementById("prompt").value.trim();
+    const status = document.getElementById("status");
+
+    if (!prompt) {
+        alert("Please describe the video you want first.");
+        return;
+    }
+
+    status.style.display = "block";
+
+    status.innerHTML =
+        "🧠 Your prompt has been received.<br><br>" +
+        "The AI video-generation system will be connected here next.";
+
+    window.scrollTo({
+        top: status.offsetTop - 100,
+        behavior: "smooth"
+    });
+}
+
+</script>
+
+</body>
+</html>
