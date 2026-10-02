@@ -79,7 +79,7 @@
             border: 1px solid #202b43;
             border-radius: 22px;
             padding: 30px;
-            box-shadow: 0 20px 70px rgba(0,0,0,.35);
+            box-shadow: 0 20px 70px rgba(0, 0, 0, .35);
         }
 
         label {
@@ -214,121 +214,231 @@
 </header>
 
 <section class="hero">
-    <h1>Turn Your <span>Prompt</span><br>Into a Video</h1>
+
+    <h1>
+        Turn Your <span>Prompt</span><br>
+        Into a Video
+    </h1>
 
     <p>
         Create cinematic, realistic and professional AI videos from your ideas.
         Write your prompt, choose your settings and generate your video.
     </p>
+
 </section>
 
 <section class="studio">
 
-    <label for="prompt">Describe the video you want</label>
+    <label for="prompt">
+        Describe the video you want
+    </label>
 
-    <textarea id="prompt"
-        placeholder="Example: Create a realistic 10-minute business advertisement showing a confident young entrepreneur introducing a modern digital company. Use cinematic camera movements, realistic lighting, professional clothing and a natural Nigerian English voice..."></textarea>
+    <textarea
+        id="prompt"
+        placeholder="Example: Create a realistic business advertisement showing a confident young entrepreneur introducing a modern digital company. Use cinematic camera movements, realistic lighting, professional clothing and a natural Nigerian English voice..."
+    ></textarea>
 
     <div class="controls">
 
+        <!-- VIDEO LENGTH -->
+
         <div class="control">
-            <label>Video Length</label>
+
+            <label>
+                Video Length
+            </label>
+
             <select id="duration">
+
+                <option>30 seconds</option>
+
                 <option>1 minute</option>
+
+                <option>2 minutes</option>
+
+                <option>3 minutes</option>
+
                 <option>5 minutes</option>
-                <option>10 minutes</option>
-                <option>20 minutes</option>
-                <option>30 minutes</option>
+
             </select>
+
         </div>
 
+
+        <!-- VIDEO STYLE -->
+
         <div class="control">
-            <label>Video Style</label>
+
+            <label>
+                Video Style
+            </label>
+
             <select id="style">
+
                 <option>Ultra Realistic</option>
+
                 <option>Cinematic</option>
+
                 <option>Business</option>
+
                 <option>Fashion</option>
+
                 <option>Advertisement</option>
+
                 <option>Documentary</option>
+
             </select>
+
         </div>
 
+
+        <!-- VIDEO QUALITY -->
+
         <div class="control">
-            <label>Video Quality</label>
+
+            <label>
+                Video Quality
+            </label>
+
             <select id="quality">
+
                 <option>High Quality</option>
+
                 <option>Full HD</option>
+
                 <option>4K</option>
+
             </select>
+
         </div>
 
     </div>
 
-    <button class="generate" onclick="generateVideo()">
+
+    <button
+        class="generate"
+        onclick="generateVideo()"
+    >
         🎬 Generate AI Video
     </button>
 
-    <div class="status" id="status">
+
+    <div
+        class="status"
+        id="status"
+    >
         Preparing your AI video project...
     </div>
 
 </section>
 
+
 <section class="features">
 
     <div class="feature">
-        <h3>🎥 Realistic Videos</h3>
+
+        <h3>
+            🎥 Realistic Videos
+        </h3>
+
         <p>
-            Designed for realistic characters, environments, lighting,
-            camera movements and professional visual storytelling.
+            Designed for realistic characters, environments,
+            lighting, camera movements and professional visual storytelling.
         </p>
+
     </div>
 
-    <div class="feature">
-        <h3>🧠 Prompt Based</h3>
-        <p>
-            Describe the video you want in your own words and the system
-            will prepare the project around your instructions.
-        </p>
-    </div>
 
     <div class="feature">
-        <h3>⏱️ Long Videos</h3>
+
+        <h3>
+            🧠 Prompt Based
+        </h3>
+
         <p>
-            Built with long-form video production in mind, including
-            projects that can eventually reach 20–30 minutes.
+            Describe the video you want in your own words and
+            the system will prepare the project around your instructions.
         </p>
+
+    </div>
+
+
+    <div class="feature">
+
+        <h3>
+            ⏱️ Flexible Length
+        </h3>
+
+        <p>
+            Create projects from short 30-second videos
+            up to longer 5-minute AI video productions.
+        </p>
+
     </div>
 
 </section>
 
+
 <footer>
+
     © 2026 IK BASIC DIGITAL — IK AI VIDEO STUDIO
+
 </footer>
+
 
 <script>
 
 function generateVideo() {
 
-    const prompt = document.getElementById("prompt").value.trim();
-    const status = document.getElementById("status");
+    const prompt =
+        document.getElementById("prompt").value.trim();
+
+    const duration =
+        document.getElementById("duration").value;
+
+    const style =
+        document.getElementById("style").value;
+
+    const quality =
+        document.getElementById("quality").value;
+
+    const status =
+        document.getElementById("status");
+
 
     if (!prompt) {
-        alert("Please describe the video you want first.");
+
+        alert(
+            "Please describe the video you want first."
+        );
+
         return;
     }
 
+
     status.style.display = "block";
 
+
     status.innerHTML =
-        "🧠 Your prompt has been received.<br><br>" +
-        "The AI video-generation system will be connected here next.";
+        "🧠 Your video project has been prepared.<br><br>" +
+
+        "Length: " + duration + "<br>" +
+
+        "Style: " + style + "<br>" +
+
+        "Quality: " + quality + "<br><br>" +
+
+        "⚙️ The real AI video-generation engine will be connected here next.";
+
 
     window.scrollTo({
+
         top: status.offsetTop - 100,
+
         behavior: "smooth"
+
     });
+
 }
 
 </script>
