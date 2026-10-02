@@ -6,7 +6,10 @@
 
     <title>IK AI VIDEO STUDIO | AI Video Generator</title>
 
-    <meta name="description" content="Create professional AI videos from your prompts with IK AI VIDEO STUDIO.">
+    <meta
+        name="description"
+        content="Create professional AI videos from your prompts with IK AI VIDEO STUDIO."
+    >
 
     <style>
         * {
@@ -147,14 +150,39 @@
             background: #4778ed;
         }
 
+        .generate:disabled {
+            opacity: 0.7;
+            cursor: wait;
+        }
+
         .status {
             display: none;
             margin-top: 20px;
-            padding: 15px;
+            padding: 20px;
             border-radius: 12px;
             background: #111a30;
             color: #aebfff;
             text-align: center;
+            line-height: 1.7;
+        }
+
+        .video-result {
+            width: 100%;
+            max-width: 850px;
+            margin: 20px auto 0;
+            border-radius: 14px;
+            display: none;
+        }
+
+        .video-link {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 12px 18px;
+            border-radius: 10px;
+            background: #5b8cff;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
         }
 
         .features {
@@ -190,6 +218,7 @@
         }
 
         @media (max-width: 700px) {
+
             .controls,
             .features {
                 grid-template-columns: 1fr;
@@ -202,6 +231,14 @@
             .hero {
                 padding-top: 45px;
             }
+
+            header {
+                padding: 18px 5%;
+            }
+
+            .logo {
+                font-size: 17px;
+            }
         }
     </style>
 </head>
@@ -209,9 +246,17 @@
 <body>
 
 <header>
-    <div class="logo">IK <span>AI VIDEO STUDIO</span></div>
-    <div class="badge">AI Video Creator</div>
+
+    <div class="logo">
+        IK <span>AI VIDEO STUDIO</span>
+    </div>
+
+    <div class="badge">
+        AI Video Creator
+    </div>
+
 </header>
+
 
 <section class="hero">
 
@@ -227,6 +272,7 @@
 
 </section>
 
+
 <section class="studio">
 
     <label for="prompt">
@@ -238,75 +284,98 @@
         placeholder="Example: Create a realistic business advertisement showing a confident young entrepreneur introducing a modern digital company. Use cinematic camera movements, realistic lighting, professional clothing and a natural Nigerian English voice..."
     ></textarea>
 
-    <div class="controls">
 
-        <!-- VIDEO LENGTH -->
+    <div class="controls">
 
         <div class="control">
 
-            <label>
+            <label for="duration">
                 Video Length
             </label>
 
             <select id="duration">
 
-                <option>30 seconds</option>
+                <option value="30 seconds">
+                    30 seconds
+                </option>
 
-                <option>1 minute</option>
+                <option value="1 minute">
+                    1 minute
+                </option>
 
-                <option>2 minutes</option>
+                <option value="2 minutes">
+                    2 minutes
+                </option>
 
-                <option>3 minutes</option>
+                <option value="3 minutes">
+                    3 minutes
+                </option>
 
-                <option>5 minutes</option>
+                <option value="5 minutes">
+                    5 minutes
+                </option>
 
             </select>
 
         </div>
 
 
-        <!-- VIDEO STYLE -->
-
         <div class="control">
 
-            <label>
+            <label for="style">
                 Video Style
             </label>
 
             <select id="style">
 
-                <option>Ultra Realistic</option>
+                <option>
+                    Ultra Realistic
+                </option>
 
-                <option>Cinematic</option>
+                <option>
+                    Cinematic
+                </option>
 
-                <option>Business</option>
+                <option>
+                    Business
+                </option>
 
-                <option>Fashion</option>
+                <option>
+                    Fashion
+                </option>
 
-                <option>Advertisement</option>
+                <option>
+                    Advertisement
+                </option>
 
-                <option>Documentary</option>
+                <option>
+                    Documentary
+                </option>
 
             </select>
 
         </div>
 
 
-        <!-- VIDEO QUALITY -->
-
         <div class="control">
 
-            <label>
+            <label for="quality">
                 Video Quality
             </label>
 
             <select id="quality">
 
-                <option>High Quality</option>
+                <option>
+                    High Quality
+                </option>
 
-                <option>Full HD</option>
+                <option>
+                    Full HD
+                </option>
 
-                <option>4K</option>
+                <option>
+                    4K
+                </option>
 
             </select>
 
@@ -327,8 +396,16 @@
         class="status"
         id="status"
     >
-        Preparing your AI video project...
+        Preparing your AI video...
     </div>
+
+
+    <video
+        id="videoResult"
+        class="video-result"
+        controls
+        playsinline
+    ></video>
 
 </section>
 
@@ -357,7 +434,7 @@
 
         <p>
             Describe the video you want in your own words and
-            the system will prepare the project around your instructions.
+            the AI generation engine will process your instructions.
         </p>
 
     </div>
@@ -370,8 +447,8 @@
         </h3>
 
         <p>
-            Create projects from short 30-second videos
-            up to longer 5-minute AI video productions.
+            Choose from 30 seconds, 1 minute, 2 minutes,
+            3 minutes or 5 minutes for your project.
         </p>
 
     </div>
@@ -388,7 +465,7 @@
 
 <script>
 
-function generateVideo() {
+async function generateVideo() {
 
     const prompt =
         document.getElementById("prompt").value.trim();
@@ -405,6 +482,12 @@ function generateVideo() {
     const status =
         document.getElementById("status");
 
+    const video =
+        document.getElementById("videoResult");
+
+    const button =
+        document.querySelector(".generate");
+
 
     if (!prompt) {
 
@@ -416,32 +499,128 @@ function generateVideo() {
     }
 
 
+    button.disabled = true;
+
+    button.textContent =
+        "⏳ Generating AI Video...";
+
+
     status.style.display = "block";
 
-
     status.innerHTML =
-        "🧠 Your video project has been prepared.<br><br>" +
-
-        "Length: " + duration + "<br>" +
-
-        "Style: " + style + "<br>" +
-
-        "Quality: " + quality + "<br><br>" +
-
-        "⚙️ The real AI video-generation engine will be connected here next.";
+        "🧠 Sending your request to the AI video engine...<br><br>" +
+        "This may take a few minutes.";
 
 
-    window.scrollTo({
+    video.style.display = "none";
 
-        top: status.offsetTop - 100,
+    video.removeAttribute("src");
 
-        behavior: "smooth"
+    try {
 
-    });
+        const response = await fetch(
+            "https://ik-ai-video-backend.onrender.com/api/generate-video",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    prompt:
+                        prompt +
+
+                        "\n\nVideo style: " +
+                        style +
+
+                        "\nVideo quality: " +
+                        quality +
+
+                        "\nRequested project length: " +
+                        duration
+
+                })
+            }
+        );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error ||
+                "Video generation failed."
+            );
+
+        }
+
+
+        if (!data.videoUrl) {
+
+            throw new Error(
+                "The video was generated but no video URL was returned."
+            );
+
+        }
+
+
+        video.src =
+            data.videoUrl;
+
+        video.style.display =
+            "block";
+
+
+        status.innerHTML =
+            "✅ Your AI video is ready!<br><br>" +
+
+            '<a class="video-link" href="' +
+            data.videoUrl +
+            '" target="_blank" rel="noopener">' +
+
+            "🎬 Open Video" +
+
+            "</a>";
+
+
+        video.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "Video generation error:",
+            error
+        );
+
+
+        status.innerHTML =
+            "❌ Video generation failed.<br><br>" +
+            "<strong>" +
+            error.message +
+            "</strong>";
+
+    }
+
+
+    button.disabled =
+        false;
+
+    button.textContent =
+        "🎬 Generate AI Video";
 
 }
 
 </script>
+
 
 </body>
 </html>
