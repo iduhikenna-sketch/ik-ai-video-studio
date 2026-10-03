@@ -23,13 +23,13 @@
         header {
             background: #0b5cff;
             color: white;
-            padding: 22px 20px;
+            padding: 24px 20px;
             text-align: center;
         }
 
         header h1 {
             font-size: 28px;
-            margin-bottom: 6px;
+            margin-bottom: 7px;
         }
 
         header p {
@@ -102,12 +102,38 @@
 
         .option-title {
             font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
         }
 
         .option-description {
             font-size: 12px;
             color: #6b7280;
+        }
+
+        .image-actions {
+            margin-top: 18px;
+            display: none;
+        }
+
+        .generate-image-button {
+            width: 100%;
+            background: #111827;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .generate-image-button:hover {
+            background: #000000;
+        }
+
+        .generate-image-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
 
         .image-preview {
@@ -118,9 +144,10 @@
 
         .image-preview img {
             width: 100%;
-            max-height: 400px;
+            max-height: 450px;
             object-fit: cover;
             border-radius: 14px;
+            display: block;
         }
 
         .delete-button {
@@ -186,11 +213,17 @@
             background: #0847c7;
         }
 
+        .generate-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
         .status {
             margin-top: 15px;
             text-align: center;
             font-size: 14px;
             color: #6b7280;
+            line-height: 1.5;
         }
 
         footer {
@@ -232,9 +265,11 @@
     <p>Create AI videos from your ideas</p>
 </header>
 
+
 <main class="container">
 
     <!-- PROMPT -->
+
     <section class="card">
 
         <h2>📝 Your Prompt</h2>
@@ -248,6 +283,7 @@
 
 
     <!-- IMAGE SOURCE -->
+
     <section class="card">
 
         <h2>🖼️ Image Source</h2>
@@ -314,7 +350,26 @@
         </div>
 
 
-        <!-- Hidden file input -->
+        <!-- GENERATE IMAGE ACTION -->
+
+        <div
+            class="image-actions"
+            id="imageActions"
+            style="display: block;"
+        >
+
+            <button
+                class="generate-image-button"
+                id="generateImageButton"
+                type="button"
+            >
+                ✨ Generate Image
+            </button>
+
+        </div>
+
+
+        <!-- UPLOAD -->
 
         <input
             type="file"
@@ -324,7 +379,7 @@
         >
 
 
-        <!-- Image Preview -->
+        <!-- IMAGE PREVIEW -->
 
         <div
             class="image-preview"
@@ -334,10 +389,8 @@
             <img
                 id="previewImage"
                 src=""
-                alt="Selected image"
+                alt="Generated or uploaded image"
             >
-
-            <br>
 
             <button
                 class="delete-button"
@@ -353,6 +406,7 @@
 
 
     <!-- VIDEO QUANTITY -->
+
     <section class="card">
 
         <h2>🎥 Number of Videos</h2>
@@ -397,6 +451,7 @@
 
 
     <!-- VIDEO DURATION -->
+
     <section class="card">
 
         <h2>⏱️ Video Duration</h2>
@@ -405,7 +460,7 @@
 
             <button
                 class="select-button selected"
-                data-duration="30 seconds"
+                data-duration="30"
                 type="button"
             >
                 30 sec
@@ -413,7 +468,7 @@
 
             <button
                 class="select-button"
-                data-duration="1 minute"
+                data-duration="60"
                 type="button"
             >
                 1 min
@@ -421,7 +476,7 @@
 
             <button
                 class="select-button"
-                data-duration="2 minutes"
+                data-duration="120"
                 type="button"
             >
                 2 min
@@ -429,7 +484,7 @@
 
             <button
                 class="select-button"
-                data-duration="3 minutes"
+                data-duration="180"
                 type="button"
             >
                 3 min
@@ -437,7 +492,7 @@
 
             <button
                 class="select-button"
-                data-duration="5 minutes"
+                data-duration="300"
                 type="button"
             >
                 5 min
@@ -448,7 +503,8 @@
     </section>
 
 
-    <!-- GENERATE -->
+    <!-- GENERATE VIDEO -->
+
     <section class="card">
 
         <button
@@ -478,9 +534,24 @@
 
 <script>
 
-    // Image source options
+    // ==========================================
+    // VARIABLES
+    // ==========================================
 
-    const options = document.querySelectorAll(".option");
+    const API_URL =
+        "https://ik-ai-video-backend.onrender.com";
+
+
+    let generatedImageUrl = null;
+
+
+    // ==========================================
+    // IMAGE SOURCE OPTIONS
+    // ==========================================
+
+    const options =
+        document.querySelectorAll(".option");
+
 
     options.forEach(option => {
 
@@ -492,10 +563,30 @@
 
             option.classList.add("selected");
 
-            const input = option.querySelector("input");
+            const input =
+                option.querySelector("input");
+
             input.checked = true;
 
+
+            // Generate Image
+
+            if (input.value === "generate") {
+
+                document
+                    .getElementById("imageActions")
+                    .style.display = "block";
+
+            }
+
+
+            // Upload Image
+
             if (input.value === "upload") {
+
+                document
+                    .getElementById("imageActions")
+                    .style.display = "none";
 
                 document
                     .getElementById("imageUpload")
@@ -503,11 +594,20 @@
 
             }
 
+
+            // No Image
+
             if (input.value === "none") {
+
+                document
+                    .getElementById("imageActions")
+                    .style.display = "none";
 
                 document
                     .getElementById("imagePreview")
                     .style.display = "none";
+
+                generatedImageUrl = null;
 
             }
 
@@ -516,63 +616,243 @@
     });
 
 
-    // Upload image
-
-    const imageUpload =
-        document.getElementById("imageUpload");
-
-    imageUpload.addEventListener("change", function () {
-
-        const file = this.files[0];
-
-        if (!file) {
-            return;
-        }
-
-        const reader = new FileReader();
-
-        reader.onload = function (event) {
-
-            document
-                .getElementById("previewImage")
-                .src = event.target.result;
-
-            document
-                .getElementById("imagePreview")
-                .style.display = "block";
-
-        };
-
-        reader.readAsDataURL(file);
-
-    });
-
-
-    // Delete image
+    // ==========================================
+    // GENERATE IMAGE
+    // ==========================================
 
     document
-        .getElementById("deleteImage")
-        .addEventListener("click", function () {
+        .getElementById("generateImageButton")
+        .addEventListener("click", async function () {
 
-            imageUpload.value = "";
+            const prompt =
+                document
+                    .getElementById("prompt")
+                    .value
+                    .trim();
+
+
+            if (!prompt) {
+
+                document
+                    .getElementById("status")
+                    .textContent =
+                    "⚠️ Please enter your prompt first.";
+
+                return;
+
+            }
+
+
+            const button = this;
+
+            button.disabled = true;
+
+            button.textContent =
+                "⏳ Generating Image...";
+
 
             document
-                .getElementById("previewImage")
-                .src = "";
+                .getElementById("status")
+                .textContent =
+                "Creating your image. Please wait...";
 
-            document
-                .getElementById("imagePreview")
-                .style.display = "none";
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_URL +
+                        "/api/generate-image",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                prompt: prompt
+                            })
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.details ||
+                        data.error ||
+                        "Image generation failed."
+                    );
+
+                }
+
+
+                if (!data.imageUrl) {
+
+                    throw new Error(
+                        "No image was returned."
+                    );
+
+                }
+
+
+                // Save image URL
+
+                generatedImageUrl =
+                    data.imageUrl;
+
+
+                // Display image
+
+                document
+                    .getElementById("previewImage")
+                    .src =
+                    data.imageUrl;
+
+
+                document
+                    .getElementById("imagePreview")
+                    .style.display =
+                    "block";
+
+
+                document
+                    .getElementById("status")
+                    .textContent =
+                    "✅ Image generated successfully!";
+
+
+            } catch (error) {
+
+                console.error(
+                    "Image generation error:",
+                    error
+                );
+
+
+                document
+                    .getElementById("status")
+                    .textContent =
+                    "❌ " +
+                    error.message;
+
+            }
+
+
+            button.disabled = false;
+
+            button.textContent =
+                "✨ Generate Image";
 
         });
 
 
-    // Video quantity selection
+    // ==========================================
+    // UPLOAD IMAGE
+    // ==========================================
+
+    const imageUpload =
+        document.getElementById("imageUpload");
+
+
+    imageUpload.addEventListener(
+        "change",
+        function () {
+
+            const file = this.files[0];
+
+            if (!file) {
+                return;
+            }
+
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload =
+                function (event) {
+
+                    generatedImageUrl =
+                        event.target.result;
+
+
+                    document
+                        .getElementById("previewImage")
+                        .src =
+                        event.target.result;
+
+
+                    document
+                        .getElementById("imagePreview")
+                        .style.display =
+                        "block";
+
+
+                    document
+                        .getElementById("status")
+                        .textContent =
+                        "✅ Image uploaded successfully.";
+
+                };
+
+
+            reader.readAsDataURL(file);
+
+        }
+    );
+
+
+    // ==========================================
+    // DELETE IMAGE
+    // ==========================================
+
+    document
+        .getElementById("deleteImage")
+        .addEventListener(
+            "click",
+            function () {
+
+                generatedImageUrl = null;
+
+                imageUpload.value = "";
+
+
+                document
+                    .getElementById("previewImage")
+                    .src = "";
+
+
+                document
+                    .getElementById("imagePreview")
+                    .style.display =
+                    "none";
+
+
+                document
+                    .getElementById("status")
+                    .textContent =
+                    "Image deleted. You can generate or upload another image.";
+
+            }
+        );
+
+
+    // ==========================================
+    // VIDEO COUNT
+    // ==========================================
 
     const countButtons =
         document.querySelectorAll(
             ".video-count .select-button"
         );
+
 
     countButtons.forEach(button => {
 
@@ -589,12 +869,15 @@
     });
 
 
-    // Duration selection
+    // ==========================================
+    // DURATION
+    // ==========================================
 
     const durationButtons =
         document.querySelectorAll(
             ".duration .select-button"
         );
+
 
     durationButtons.forEach(button => {
 
@@ -611,49 +894,64 @@
     });
 
 
-    // Generate button
+    // ==========================================
+    // GENERATE VIDEO
+    // ==========================================
 
     document
         .getElementById("generateVideo")
-        .addEventListener("click", function () {
+        .addEventListener(
+            "click",
+            async function () {
 
-            const prompt =
-                document.getElementById("prompt").value.trim();
+                const prompt =
+                    document
+                        .getElementById("prompt")
+                        .value
+                        .trim();
 
-            if (!prompt) {
 
-                document.getElementById("status").textContent =
-                    "⚠️ Please enter a video prompt first.";
+                if (!prompt) {
 
-                return;
+                    document
+                        .getElementById("status")
+                        .textContent =
+                        "⚠️ Please enter your prompt first.";
+
+                    return;
+
+                }
+
+
+                const selectedCount =
+                    document.querySelector(
+                        ".video-count .selected"
+                    ).dataset.count;
+
+
+                const selectedDuration =
+                    document.querySelector(
+                        ".duration .selected"
+                    ).dataset.duration;
+
+
+                const imageSource =
+                    document.querySelector(
+                        'input[name="imageSource"]:checked'
+                    ).value;
+
+
+                document
+                    .getElementById("status")
+                    .textContent =
+                    "Ready: " +
+                    selectedCount +
+                    " video(s), " +
+                    selectedDuration +
+                    " seconds.";
 
             }
-
-            const selectedCount =
-                document.querySelector(
-                    ".video-count .selected"
-                ).dataset.count;
-
-            const selectedDuration =
-                document.querySelector(
-                    ".duration .selected"
-                ).dataset.duration;
-
-            const selectedImageSource =
-                document.querySelector(
-                    'input[name="imageSource"]:checked'
-                ).value;
-
-            document.getElementById("status").textContent =
-                "Ready: " +
-                selectedCount +
-                " video(s), " +
-                selectedDuration +
-                ", image source: " +
-                selectedImageSource +
-                ".";
-
-        });
+        );
 
 </script>
 
