@@ -4,12 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>IK AI VIDEO STUDIO | AI Video Generator</title>
-
-    <meta
-        name="description"
-        content="Create professional AI videos from your prompts with IK AI VIDEO STUDIO."
-    >
+    <title>IK AI VIDEO STUDIO</title>
 
     <style>
         * {
@@ -20,224 +15,211 @@
 
         body {
             font-family: Arial, sans-serif;
-            background: #070b16;
-            color: white;
+            background: #f4f7fb;
+            color: #111827;
             min-height: 100vh;
         }
 
         header {
-            padding: 20px 7%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #20283b;
-        }
-
-        .logo {
-            font-size: 22px;
-            font-weight: bold;
-        }
-
-        .logo span {
-            color: #5b8cff;
-        }
-
-        .badge {
-            background: #111a30;
-            border: 1px solid #293657;
-            padding: 8px 14px;
-            border-radius: 20px;
-            font-size: 13px;
-            color: #9db7ff;
-        }
-
-        .hero {
+            background: #0b5cff;
+            color: white;
+            padding: 22px 20px;
             text-align: center;
-            padding: 65px 20px 35px;
         }
 
-        .hero h1 {
-            font-size: clamp(38px, 7vw, 72px);
-            margin-bottom: 18px;
-            line-height: 1.05;
+        header h1 {
+            font-size: 28px;
+            margin-bottom: 6px;
         }
 
-        .hero h1 span {
-            color: #5b8cff;
+        header p {
+            font-size: 14px;
+            opacity: 0.9;
         }
 
-        .hero p {
-            max-width: 700px;
-            margin: auto;
-            color: #aeb8cc;
-            font-size: 18px;
-            line-height: 1.7;
+        .container {
+            width: 100%;
+            max-width: 850px;
+            margin: 30px auto;
+            padding: 0 18px;
         }
 
-        .studio {
-            width: 92%;
-            max-width: 1000px;
-            margin: 30px auto 70px;
-            background: #0d1322;
-            border: 1px solid #202b43;
-            border-radius: 22px;
-            padding: 30px;
-            box-shadow: 0 20px 70px rgba(0, 0, 0, .35);
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
         }
 
-        label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: bold;
+        .card h2 {
+            font-size: 20px;
+            margin-bottom: 15px;
         }
 
         textarea {
             width: 100%;
-            min-height: 190px;
-            resize: vertical;
-            background: #080d18;
-            color: white;
-            border: 1px solid #2a3753;
-            border-radius: 14px;
-            padding: 17px;
+            min-height: 150px;
+            padding: 15px;
+            border: 1px solid #d1d5db;
+            border-radius: 12px;
             font-size: 16px;
+            resize: vertical;
             outline: none;
-            line-height: 1.6;
         }
 
         textarea:focus {
-            border-color: #5b8cff;
+            border-color: #0b5cff;
         }
 
-        .controls {
+        .options {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-top: 22px;
+            gap: 12px;
         }
 
-        .control {
-            background: #080d18;
-            border: 1px solid #26334d;
-            border-radius: 13px;
+        .option {
+            border: 2px solid #dbe2ea;
+            border-radius: 12px;
             padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
         }
 
-        select {
+        .option:hover {
+            border-color: #0b5cff;
+        }
+
+        .option input {
+            display: none;
+        }
+
+        .option.selected {
+            border-color: #0b5cff;
+            background: #eef4ff;
+        }
+
+        .option-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .option-description {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .image-preview {
+            margin-top: 18px;
+            display: none;
+            text-align: center;
+        }
+
+        .image-preview img {
             width: 100%;
-            margin-top: 8px;
-            background: #11192a;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 14px;
+        }
+
+        .delete-button {
+            margin-top: 12px;
+            background: #dc2626;
             color: white;
-            border: 1px solid #2b3957;
-            border-radius: 9px;
-            padding: 11px;
-        }
-
-        .generate {
-            width: 100%;
-            margin-top: 25px;
-            padding: 17px;
             border: none;
-            border-radius: 13px;
-            background: #5b8cff;
+            padding: 11px 18px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .delete-button:hover {
+            background: #b91c1c;
+        }
+
+        .video-count {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .duration {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+        }
+
+        .select-button {
+            border: 2px solid #dbe2ea;
+            background: white;
+            padding: 14px 8px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .select-button:hover {
+            border-color: #0b5cff;
+        }
+
+        .select-button.selected {
+            background: #0b5cff;
+            border-color: #0b5cff;
             color: white;
-            font-size: 17px;
+        }
+
+        .generate-button {
+            width: 100%;
+            background: #0b5cff;
+            color: white;
+            border: none;
+            padding: 17px;
+            border-radius: 12px;
+            font-size: 18px;
             font-weight: bold;
             cursor: pointer;
         }
 
-        .generate:hover {
-            background: #4778ed;
-        }
-
-        .generate:disabled {
-            opacity: 0.7;
-            cursor: wait;
+        .generate-button:hover {
+            background: #0847c7;
         }
 
         .status {
-            display: none;
-            margin-top: 20px;
-            padding: 20px;
-            border-radius: 12px;
-            background: #111a30;
-            color: #aebfff;
-            text-align: center;
-            line-height: 1.7;
-        }
-
-        .video-result {
-            width: 100%;
-            max-width: 850px;
-            margin: 20px auto 0;
-            border-radius: 14px;
-            display: none;
-        }
-
-        .video-link {
-            display: inline-block;
             margin-top: 15px;
-            padding: 12px 18px;
-            border-radius: 10px;
-            background: #5b8cff;
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .features {
-            width: 92%;
-            max-width: 1000px;
-            margin: 0 auto 70px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
-        }
-
-        .feature {
-            padding: 25px;
-            background: #0d1322;
-            border: 1px solid #202b43;
-            border-radius: 18px;
-        }
-
-        .feature h3 {
-            margin-bottom: 10px;
-        }
-
-        .feature p {
-            color: #9da8bd;
-            line-height: 1.6;
+            text-align: center;
+            font-size: 14px;
+            color: #6b7280;
         }
 
         footer {
-            border-top: 1px solid #20283b;
             text-align: center;
             padding: 25px;
-            color: #7e899e;
+            color: #6b7280;
+            font-size: 13px;
         }
 
-        @media (max-width: 700px) {
+        @media (max-width: 600px) {
 
-            .controls,
-            .features {
+            header h1 {
+                font-size: 23px;
+            }
+
+            .options {
                 grid-template-columns: 1fr;
             }
 
-            .studio {
-                padding: 20px;
+            .video-count {
+                grid-template-columns: repeat(4, 1fr);
             }
 
-            .hero {
-                padding-top: 45px;
+            .duration {
+                grid-template-columns: repeat(2, 1fr);
             }
 
-            header {
-                padding: 18px 5%;
-            }
-
-            .logo {
-                font-size: 17px;
+            .card {
+                padding: 18px;
             }
         }
     </style>
@@ -246,381 +228,434 @@
 <body>
 
 <header>
-
-    <div class="logo">
-        IK <span>AI VIDEO STUDIO</span>
-    </div>
-
-    <div class="badge">
-        AI Video Creator
-    </div>
-
+    <h1>🎬 IK AI VIDEO STUDIO</h1>
+    <p>Create AI videos from your ideas</p>
 </header>
 
+<main class="container">
 
-<section class="hero">
+    <!-- PROMPT -->
+    <section class="card">
 
-    <h1>
-        Turn Your <span>Prompt</span><br>
-        Into a Video
-    </h1>
+        <h2>📝 Your Prompt</h2>
 
-    <p>
-        Create cinematic, realistic and professional AI videos from your ideas.
-        Write your prompt, choose your settings and generate your video.
-    </p>
+        <textarea
+            id="prompt"
+            placeholder="Describe the video you want to create..."
+        ></textarea>
 
-</section>
-
-
-<section class="studio">
-
-    <label for="prompt">
-        Describe the video you want
-    </label>
-
-    <textarea
-        id="prompt"
-        placeholder="Example: Create a realistic business advertisement showing a confident young entrepreneur introducing a modern digital company. Use cinematic camera movements, realistic lighting, professional clothing and a natural Nigerian English voice..."
-    ></textarea>
+    </section>
 
 
-    <div class="controls">
+    <!-- IMAGE SOURCE -->
+    <section class="card">
 
-        <div class="control">
+        <h2>🖼️ Image Source</h2>
 
-            <label for="duration">
-                Video Length
+        <div class="options">
+
+            <label class="option selected" id="generateImageOption">
+
+                <input
+                    type="radio"
+                    name="imageSource"
+                    value="generate"
+                    checked
+                >
+
+                <div class="option-title">
+                    ✨ Generate Image
+                </div>
+
+                <div class="option-description">
+                    Create an image from your prompt
+                </div>
+
             </label>
 
-            <select id="duration">
 
-                <option value="30 seconds">
-                    30 seconds
-                </option>
+            <label class="option" id="uploadImageOption">
 
-                <option value="1 minute">
-                    1 minute
-                </option>
+                <input
+                    type="radio"
+                    name="imageSource"
+                    value="upload"
+                >
 
-                <option value="2 minutes">
-                    2 minutes
-                </option>
+                <div class="option-title">
+                    📤 Upload Image
+                </div>
 
-                <option value="3 minutes">
-                    3 minutes
-                </option>
+                <div class="option-description">
+                    Use an image from your device
+                </div>
 
-                <option value="5 minutes">
-                    5 minutes
-                </option>
+            </label>
 
-            </select>
+
+            <label class="option" id="noImageOption">
+
+                <input
+                    type="radio"
+                    name="imageSource"
+                    value="none"
+                >
+
+                <div class="option-title">
+                    🚫 No Image
+                </div>
+
+                <div class="option-description">
+                    Generate without an image
+                </div>
+
+            </label>
 
         </div>
 
 
-        <div class="control">
+        <!-- Hidden file input -->
 
-            <label for="style">
-                Video Style
-            </label>
-
-            <select id="style">
-
-                <option>
-                    Ultra Realistic
-                </option>
-
-                <option>
-                    Cinematic
-                </option>
-
-                <option>
-                    Business
-                </option>
-
-                <option>
-                    Fashion
-                </option>
-
-                <option>
-                    Advertisement
-                </option>
-
-                <option>
-                    Documentary
-                </option>
-
-            </select>
-
-        </div>
+        <input
+            type="file"
+            id="imageUpload"
+            accept="image/*"
+            style="display:none;"
+        >
 
 
-        <div class="control">
+        <!-- Image Preview -->
 
-            <label for="quality">
-                Video Quality
-            </label>
+        <div
+            class="image-preview"
+            id="imagePreview"
+        >
 
-            <select id="quality">
+            <img
+                id="previewImage"
+                src=""
+                alt="Selected image"
+            >
 
-                <option>
-                    High Quality
-                </option>
+            <br>
 
-                <option>
-                    Full HD
-                </option>
-
-                <option>
-                    4K
-                </option>
-
-            </select>
+            <button
+                class="delete-button"
+                id="deleteImage"
+                type="button"
+            >
+                🗑️ Delete Image
+            </button>
 
         </div>
 
-    </div>
+    </section>
 
 
-    <button
-        class="generate"
-        onclick="generateVideo()"
-    >
-        🎬 Generate AI Video
-    </button>
+    <!-- VIDEO QUANTITY -->
+    <section class="card">
+
+        <h2>🎥 Number of Videos</h2>
+
+        <div class="video-count">
+
+            <button
+                class="select-button selected"
+                data-count="1"
+                type="button"
+            >
+                1
+            </button>
+
+            <button
+                class="select-button"
+                data-count="2"
+                type="button"
+            >
+                2
+            </button>
+
+            <button
+                class="select-button"
+                data-count="3"
+                type="button"
+            >
+                3
+            </button>
+
+            <button
+                class="select-button"
+                data-count="4"
+                type="button"
+            >
+                4
+            </button>
+
+        </div>
+
+    </section>
 
 
-    <div
-        class="status"
-        id="status"
-    >
-        Preparing your AI video...
-    </div>
+    <!-- VIDEO DURATION -->
+    <section class="card">
+
+        <h2>⏱️ Video Duration</h2>
+
+        <div class="duration">
+
+            <button
+                class="select-button selected"
+                data-duration="30 seconds"
+                type="button"
+            >
+                30 sec
+            </button>
+
+            <button
+                class="select-button"
+                data-duration="1 minute"
+                type="button"
+            >
+                1 min
+            </button>
+
+            <button
+                class="select-button"
+                data-duration="2 minutes"
+                type="button"
+            >
+                2 min
+            </button>
+
+            <button
+                class="select-button"
+                data-duration="3 minutes"
+                type="button"
+            >
+                3 min
+            </button>
+
+            <button
+                class="select-button"
+                data-duration="5 minutes"
+                type="button"
+            >
+                5 min
+            </button>
+
+        </div>
+
+    </section>
 
 
-    <video
-        id="videoResult"
-        class="video-result"
-        controls
-        playsinline
-    ></video>
+    <!-- GENERATE -->
+    <section class="card">
 
-</section>
+        <button
+            class="generate-button"
+            id="generateVideo"
+            type="button"
+        >
+            🚀 Generate Video
+        </button>
 
+        <div
+            class="status"
+            id="status"
+        >
+            Ready to create your video.
+        </div>
 
-<section class="features">
+    </section>
 
-    <div class="feature">
-
-        <h3>
-            🎥 Realistic Videos
-        </h3>
-
-        <p>
-            Designed for realistic characters, environments,
-            lighting, camera movements and professional visual storytelling.
-        </p>
-
-    </div>
-
-
-    <div class="feature">
-
-        <h3>
-            🧠 Prompt Based
-        </h3>
-
-        <p>
-            Describe the video you want in your own words and
-            the AI generation engine will process your instructions.
-        </p>
-
-    </div>
-
-
-    <div class="feature">
-
-        <h3>
-            ⏱️ Flexible Length
-        </h3>
-
-        <p>
-            Choose from 30 seconds, 1 minute, 2 minutes,
-            3 minutes or 5 minutes for your project.
-        </p>
-
-    </div>
-
-</section>
+</main>
 
 
 <footer>
-
-    © 2026 IK BASIC DIGITAL — IK AI VIDEO STUDIO
-
+    © 2026 IK BASIC DIGITAL SOLUTIONS
 </footer>
 
 
 <script>
 
-async function generateVideo() {
+    // Image source options
 
-    const prompt =
-        document.getElementById("prompt").value.trim();
+    const options = document.querySelectorAll(".option");
 
-    const duration =
-        document.getElementById("duration").value;
+    options.forEach(option => {
 
-    const style =
-        document.getElementById("style").value;
+        option.addEventListener("click", () => {
 
-    const quality =
-        document.getElementById("quality").value;
+            options.forEach(item => {
+                item.classList.remove("selected");
+            });
 
-    const status =
-        document.getElementById("status");
+            option.classList.add("selected");
 
-    const video =
-        document.getElementById("videoResult");
+            const input = option.querySelector("input");
+            input.checked = true;
 
-    const button =
-        document.querySelector(".generate");
+            if (input.value === "upload") {
 
+                document
+                    .getElementById("imageUpload")
+                    .click();
 
-    if (!prompt) {
-
-        alert(
-            "Please describe the video you want first."
-        );
-
-        return;
-    }
-
-
-    button.disabled = true;
-
-    button.textContent =
-        "⏳ Generating AI Video...";
-
-
-    status.style.display = "block";
-
-    status.innerHTML =
-        "🧠 Sending your request to the AI video engine...<br><br>" +
-        "This may take a few minutes.";
-
-
-    video.style.display = "none";
-
-    video.removeAttribute("src");
-
-    try {
-
-        const response = await fetch(
-            "https://ik-ai-video-backend.onrender.com/api/generate-video",
-            {
-                method: "POST",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify({
-
-                    prompt:
-                        prompt +
-
-                        "\n\nVideo style: " +
-                        style +
-
-                        "\nVideo quality: " +
-                        quality +
-
-                        "\nRequested project length: " +
-                        duration
-
-                })
             }
-        );
+
+            if (input.value === "none") {
+
+                document
+                    .getElementById("imagePreview")
+                    .style.display = "none";
+
+            }
+
+        });
+
+    });
 
 
-        const data =
-            await response.json();
+    // Upload image
 
+    const imageUpload =
+        document.getElementById("imageUpload");
 
-        if (!response.ok) {
+    imageUpload.addEventListener("change", function () {
 
-            throw new Error(
-                data.error ||
-                "Video generation failed."
-            );
+        const file = this.files[0];
 
+        if (!file) {
+            return;
         }
 
+        const reader = new FileReader();
 
-        if (!data.videoUrl) {
+        reader.onload = function (event) {
 
-            throw new Error(
-                "The video was generated but no video URL was returned."
-            );
+            document
+                .getElementById("previewImage")
+                .src = event.target.result;
 
-        }
+            document
+                .getElementById("imagePreview")
+                .style.display = "block";
 
+        };
 
-        video.src =
-            data.videoUrl;
+        reader.readAsDataURL(file);
 
-        video.style.display =
-            "block";
-
-
-        status.innerHTML =
-            "✅ Your AI video is ready!<br><br>" +
-
-            '<a class="video-link" href="' +
-            data.videoUrl +
-            '" target="_blank" rel="noopener">' +
-
-            "🎬 Open Video" +
-
-            "</a>";
+    });
 
 
-        video.scrollIntoView({
-            behavior: "smooth",
-            block: "center"
+    // Delete image
+
+    document
+        .getElementById("deleteImage")
+        .addEventListener("click", function () {
+
+            imageUpload.value = "";
+
+            document
+                .getElementById("previewImage")
+                .src = "";
+
+            document
+                .getElementById("imagePreview")
+                .style.display = "none";
+
         });
 
 
-    } catch (error) {
+    // Video quantity selection
 
-        console.error(
-            "Video generation error:",
-            error
+    const countButtons =
+        document.querySelectorAll(
+            ".video-count .select-button"
         );
 
+    countButtons.forEach(button => {
 
-        status.innerHTML =
-            "❌ Video generation failed.<br><br>" +
-            "<strong>" +
-            error.message +
-            "</strong>";
+        button.addEventListener("click", () => {
 
-    }
+            countButtons.forEach(item => {
+                item.classList.remove("selected");
+            });
+
+            button.classList.add("selected");
+
+        });
+
+    });
 
 
-    button.disabled =
-        false;
+    // Duration selection
 
-    button.textContent =
-        "🎬 Generate AI Video";
+    const durationButtons =
+        document.querySelectorAll(
+            ".duration .select-button"
+        );
 
-}
+    durationButtons.forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            durationButtons.forEach(item => {
+                item.classList.remove("selected");
+            });
+
+            button.classList.add("selected");
+
+        });
+
+    });
+
+
+    // Generate button
+
+    document
+        .getElementById("generateVideo")
+        .addEventListener("click", function () {
+
+            const prompt =
+                document.getElementById("prompt").value.trim();
+
+            if (!prompt) {
+
+                document.getElementById("status").textContent =
+                    "⚠️ Please enter a video prompt first.";
+
+                return;
+
+            }
+
+            const selectedCount =
+                document.querySelector(
+                    ".video-count .selected"
+                ).dataset.count;
+
+            const selectedDuration =
+                document.querySelector(
+                    ".duration .selected"
+                ).dataset.duration;
+
+            const selectedImageSource =
+                document.querySelector(
+                    'input[name="imageSource"]:checked'
+                ).value;
+
+            document.getElementById("status").textContent =
+                "Ready: " +
+                selectedCount +
+                " video(s), " +
+                selectedDuration +
+                ", image source: " +
+                selectedImageSource +
+                ".";
+
+        });
 
 </script>
-
 
 </body>
 </html>
